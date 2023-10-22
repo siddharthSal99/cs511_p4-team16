@@ -14,4 +14,13 @@ Phase 1: initial parts of the system:
         # Convert frame to JPEG and then to bytes
         _, buffer = cv2.imencode('.jpg', frame)
         producer.send('video_topic', buffer.tobytes())
+
+    Task 2: Set up a python function that sets up a YOLOv8 instance and runs object detection on an image 
+
+    Task 3: (dependent on Task 1): Set up a spark structured streaming cluster that reads from the kafka producer.
+    For now, just verify the spark cluster can read from kafka. we will worry about integrating YOLO in Phase 2.
+
+    Other considerations: 
+        Dockerize? we may have to run this on AWS
+        Broadcast the YOLOv8 model to the spark nodes so that they don't each have to set up YOLO running locally.
 """
