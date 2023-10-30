@@ -27,6 +27,11 @@ print('Video capture started')
 # producer.produce(kafka_topic, value=video_title)
 # print('message sent')
 # producer.poll(0)
+frame_width = 640
+frame_height = 480
+capture.set(3, frame_width)
+capture.set(4, frame_height)
+
 
 while True:
     grabbed, frame = capture.read()
@@ -34,10 +39,11 @@ while True:
     if not grabbed:
         break
 
-    frame_bytes = frame.tobytes()
+    resized_frame = cv2.resize(frame, (frame_width, frame_height))
 
-    # Produce the video frame data to Kafka
-    producer.produce(kafka_topic, key='nature', value=video_title)
+    frame_bytes = resized_frame.tobytes()
+
+    producer.produce(kafka_topic, key='nature', value=frame_bytes)
     print('message sent')
     producer.poll(0)
 
