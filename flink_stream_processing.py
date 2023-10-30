@@ -1,36 +1,3 @@
-from pyflink.common.serialization import SimpleStringSchema
-from pyflink.datastream import StreamExecutionEnvironment
-from pyflink.datastream.connectors import FlinkKafkaConsumer
-
-def main():
-    # Set up the environment
-    env = StreamExecutionEnvironment.get_execution_environment()
-
-    # Define the Kafka properties and topic
-    properties = {
-        "bootstrap.servers": "localhost:9092",  # Replace with your Kafka broker addresses
-        "group.id": "image_consumer"
-    }
-    topic = "your_image_topic_name"
-
-    # Create a Kafka consumer for Flink
-    kafka_consumer = FlinkKafkaConsumer(topic, SimpleStringSchema(), properties)
-
-    # Add the Kafka consumer to the data stream
-    image_stream = env.add_source(kafka_consumer)
-
-    # Process the image data (for now, just print it)
-    image_stream.print()
-
-    # Execute the Flink job
-    env.execute("Read Image Stream from Kafka")
-
-if __name__ == '__main__':
-    main()
-
-
-
-"""
 import cv2
 import numpy as np
 from pyflink.common.serialization import SimpleStringSchema
@@ -80,4 +47,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-"""
