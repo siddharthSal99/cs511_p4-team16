@@ -3,6 +3,8 @@ Phase 1: initial parts of the system:
     Task 1: Set up video stream as a producer for kafka:
     https://stackoverflow.com/questions/43032163/how-to-read-youtube-live-stream-using-opencv-python
 
+    Anomaly detection Stream Data: https://www.kaggle.com/datasets/boltzmannbrain/nab/data
+
     import cv2
     from kafka import KafkaProducer
 
