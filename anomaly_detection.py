@@ -16,7 +16,7 @@ def step1_training():
     train = pd.read_csv("./anomaly-detection-data/artificialNoAnomaly/artificialNoAnomaly/art_daily_small_noise.csv")
     clf = IsolationForest(max_samples=100, random_state=0)
     # print(train.loc[:, ["value"]].head())
-    clf.fit(train.loc[:, ["value"]])
+    clf.fit(train.loc[:, ["value"]].values)
     filename = 'clf.pkl'
     pickle.dump(clf, open(filename, 'wb'))
        
@@ -38,5 +38,5 @@ def step2_inference():
 
 
 if __name__ == "__main__":
-    # step1_training()
-    step2_inference()
+    step1_training()
+    # step2_inference()
