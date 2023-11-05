@@ -12,8 +12,9 @@ def produce_message():
 
     while True:
         try:
-            message = 'message number'
-            p.produce('king_lear_text', value=message, callback=delivery_report)
+            with open('kinglear.txt','rb') as file:
+                for line in file.readlines():  
+                    p.produce('king_lear_text', value=line, callback=delivery_report)
         except KeyboardInterrupt:
             print("Killed by user")
         finally:
