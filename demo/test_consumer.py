@@ -19,8 +19,8 @@ def consume_messages():
         'statistics.interval.ms': 10000
     })
 
-    c.subscribe(['json_csv_topic'])
-    # c.subscribe(['king_lear_text'])
+    # c.subscribe(['json_csv_topic'])
+    c.subscribe(['king_lear_text'])
     
     try:
         while True:
@@ -36,9 +36,9 @@ def consume_messages():
                     print('Error while consuming message: {}'.format(msg.error()))
             else:
                 # print('Received message: {}'.format(msg.value().decode('utf-8')))
-                
-                # sentiment_scores(msg.value().decode('utf-8'))
-                anomaly_detection(msg.value())
+
+                sentiment_scores(msg.value().decode('utf-8'))
+                # anomaly_detection(msg.value())
     except KeyboardInterrupt:
         print('Canceled by user.')
     finally:
@@ -50,6 +50,7 @@ def anomaly_detection(data):
     loaded_model = pickle.load(open(filename, 'rb'))
     result = loaded_model.predict([[val]])
     print(result)
+
 def sentiment_scores(sentence):
  
     # Create a SentimentIntensityAnalyzer object.
