@@ -1,8 +1,18 @@
 from confluent_kafka import Producer
 import json
 
+
+# Define the stats callback function
+def stats_callback(stats_json_str):
+    stats = json.loads(stats_json_str)
+    # You can process the stats object here (e.g., log them, send them to a monitoring system, etc.)
+    with open('anomaly-producer.json', 'w+') as file:
+        file.write(json.dumps(stats, indent=2))
+
 kafka_config = {
     'bootstrap.servers': 'localhost:29092',
+    'stats_cb': stats_callback,  # Set the stats callback
+    'statistics.interval.ms': 10000
 }
 producer = Producer(kafka_config)
 

@@ -1,6 +1,7 @@
 from confluent_kafka import Producer
 from pytube import YouTube
 import cv2
+import json
 
 def delivery_report(err, msg):
     # pass
@@ -8,6 +9,13 @@ def delivery_report(err, msg):
         print('Message delivery failed: {}'.format(err))
     else:
         print('Message delivered to {} [{}]'.format(msg.topic(), msg.partition()))
+
+# Define the stats callback function
+def stats_callback(stats_json_str):
+    stats = json.loads(stats_json_str)
+    # You can process the stats object here (e.g., log them, send them to a monitoring system, etc.)
+    with open('image-producer.json', 'w+') as file:
+        file.write(json.dumps(stats, indent=2))
 
 def encode_frame_to_byte(frame):
     # Convert frame to byte
@@ -30,7 +38,8 @@ def produce_message():
     # Get the video stream
     stream = video.streams.get_highest_resolution()
     video_stream_url = stream.url
-    p = Producer({'bootstrap.servers': 'localhost:29092'})
+    p = Producer({'bootstrap.servers': 'localhost:29092','stats_cb': stats_callback,  # Set the stats callback
+    'statistics.interval.ms': 10000})
 
     while True:
         try:
